@@ -81,6 +81,8 @@ app*.json
 *.config
 config.json
 config*.json
+Config.json
+Config*.json
 
 # Ignore auto-generated files
 GeneratedFiles/
