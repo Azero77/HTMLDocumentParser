@@ -11,6 +11,7 @@ namespace HTMLParser.Library
     public class DocumentChunker
     {
         private readonly int _tokenLimit;
+        private long cursor = 0; //pointer to the token selected while reading
         public DocumentChunker(IConfiguration configuration)
         {
             _tokenLimit = int.Parse(configuration["TokenLimit"] ?? string.Empty);
@@ -29,18 +30,16 @@ namespace HTMLParser.Library
             //Node to return when adding chunks to make a document chunk
             HtmlNode result_node = new HtmlDocument().CreateElement("div");
             int token_counter = 0;
-            int overall_token = 0;
             foreach (HtmlNode node in root.ChildNodes)
             {
                 int node_token = ApproximateTokenCount(node);
                 if (node_token == 0)
                     continue;
-                token_counter += node_token;
-                if (token_counter > _tokenLimit)
+                if (token_counter + node_token > _tokenLimit)
                 {
                     if (result_node.ChildNodes.Count() > 0)
                     {
-                        DocumentChunk returnedChunk =  new DocumentChunk() { Content = result_node.OuterHtml, EndToken = token_counter }; //add logic for staring and ending token
+                        DocumentChunk returnedChunk =  new DocumentChunk() { Content = result_node.OuterHtml,StartedToken = cursor - token_counter, TokenLength = token_counter }; //add logic for staring and ending token
                         token_counter = 0;
                         yield return returnedChunk;
                     }
@@ -52,21 +51,23 @@ namespace HTMLParser.Library
                             yield return chunk;
                         }
                         token_counter = 0;
+                        continue;
                     }
                 }
                 else
                     result_node.ChildNodes.Add(node);
 
-                overall_token += node_token;
+                cursor += node_token;
+                token_counter += node_token;
             }
             if (result_node.ChildNodes.Any())
             {
                 DocumentChunk chunk = new DocumentChunk()
                 {
                     Content = result_node.InnerHtml,
-                    EndToken = token_counter
+                    StartedToken = cursor - token_counter,
+                    TokenLength = token_counter
                 };
-                token_counter = 0;
                 yield return chunk;
             }
                 
@@ -88,7 +89,7 @@ namespace HTMLParser.Library
     {
         public string Content { get; set; } = string.Empty;
         public long StartedToken { get; set; }
-        public long EndToken { get; set; }
+        public long TokenLength { get; set; }
     }
 
 }

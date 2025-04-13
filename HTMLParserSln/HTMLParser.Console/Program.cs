@@ -20,7 +20,9 @@ namespace HTMLParser.Console
             foreach (var item in chunker.Chunk(new StreamReader(@"E:\Chemistry\Bank\output.html")))
             {
                 WriteLine("--------------------------------------");
-                WriteLine(item.Content);
+                WriteLine("Start:" + item.StartedToken);
+                WriteLine("Content:" + item.Content);
+                WriteLine("Length:" +item.TokenLength);
                 WriteLine("--------------------------------------");
             }
         }
