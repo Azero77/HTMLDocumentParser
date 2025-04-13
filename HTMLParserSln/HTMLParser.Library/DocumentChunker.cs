@@ -21,43 +21,56 @@ namespace HTMLParser.Library
             HtmlDocument document = LoadDocument(file);
             HtmlNode? body = document.DocumentNode;
             if(body is null)
-                yield break;
+                throw new InvalidDataException("This format is not provided");
+            return Chunk(body);
+        }
+        private IEnumerable<DocumentChunk> Chunk(HtmlNode root)
+        {
+            //Node to return when adding chunks to make a document chunk
             HtmlNode result_node = new HtmlDocument().CreateElement("div");
-
             int token_counter = 0;
-            foreach (HtmlNode node in body.ChildNodes)
+            int overall_token = 0;
+            foreach (HtmlNode node in root.ChildNodes)
             {
-                token_counter += ApproximateTokenCount(node);
+                int node_token = ApproximateTokenCount(node);
+                if (node_token == 0)
+                    continue;
+                token_counter += node_token;
                 if (token_counter > _tokenLimit)
                 {
                     if (result_node.ChildNodes.Count() > 0)
-                        yield return new DocumentChunk() { Content = result_node.OuterHtml }; //add logic for staring and ending token
+                    {
+                        DocumentChunk returnedChunk =  new DocumentChunk() { Content = result_node.OuterHtml, EndToken = token_counter }; //add logic for staring and ending token
+                        token_counter = 0;
+                        yield return returnedChunk;
+                    }
                     else
                     {
                         //make chunking to child nodes in the child node of the body
-                        foreach (DocumentChunk chunk in LargeChunkHandler(node))
+                        foreach (DocumentChunk chunk in Chunk(node))
                         {
                             yield return chunk;
                         }
+                        token_counter = 0;
                     }
                 }
                 else
                     result_node.ChildNodes.Add(node);
+
+                overall_token += node_token;
             }
-
             if (result_node.ChildNodes.Any())
-                yield return new DocumentChunk()
+            {
+                DocumentChunk chunk = new DocumentChunk()
                 {
-                    Content = result_node.InnerHtml
+                    Content = result_node.InnerHtml,
+                    EndToken = token_counter
                 };
+                token_counter = 0;
+                yield return chunk;
+            }
+                
         }
-
-
-        private IEnumerable<DocumentChunk> LargeChunkHandler(HtmlNode node)
-        {
-            throw new NotImplementedException();
-        }
-
         private static HtmlDocument LoadDocument(StreamReader file)
         {
             HtmlDocument document = new HtmlDocument();
@@ -67,7 +80,7 @@ namespace HTMLParser.Library
 
         private static int ApproximateTokenCount(HtmlNode node)
         {
-            return node.OuterLength / 4;
+            return (int) Math.Ceiling((double)(node.OuterLength / 4));
         }
     }
 
@@ -77,4 +90,5 @@ namespace HTMLParser.Library
         public long StartedToken { get; set; }
         public long EndToken { get; set; }
     }
+
 }
