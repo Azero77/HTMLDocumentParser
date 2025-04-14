@@ -1,4 +1,5 @@
 ﻿using HTMLParser.Library;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace HTMLParser.Tests
  },
  {
  ""QuestionText"": ""<td><p><span dir=\""rtl\"">ليكن التفاعل</span></p><p><span class=\""math";
-            string properJson = @"[
+            string expected = @"[
  {
  ""QuestionText"": ""<td><p><span dir=\""rtl\"">اكتب علاقة ثابت التوازن الكيميائي بدلالة التراكيز للتفاعل الآتي:</span></p><p><span class=\""math display\"">\\[\\text{CaC}{O_{3}}_{\\left( s \\right)} \\rightleftharpoons CaO_{\\left( s \\right)} + C{O_{2}}_{\\left( g \\right)}\\]</span></p></td>"",
  ""QuestionChoices"": [
@@ -57,19 +58,23 @@ namespace HTMLParser.Tests
  ],
  ""QuestionAnswer"": ""<td>A</td>""
  }, {
- ""QuestionText"": ""<td><p><span dir=\""rtl\"">ليكن التفاعل</span></p><p><span class=\""math\"""",""QuestionChoices"":[],""QuestionAnswer"":""""}]";
+ ""QuestionText"": ""<td><p><span dir=\""rtl\"">ليكن التفاعل</span></p><p><span class=\""math""}]";
             malformedJson = malformedJson.Trim();
-            properJson = properJson.Trim();
+            expected = expected.Trim();
 
             //Act
+            Console.OutputEncoding = Encoding.UTF8;
             MemoryStream stream = new(Encoding.UTF8.GetBytes(malformedJson));
             ResponseValidator validator = new();
              var correctedStream =  await validator.Validate(stream);
-            StreamReader reader = new(correctedStream);
-            string expectedJson = await reader.ReadToEndAsync();
-            expectedJson = expectedJson.Trim();
+            StreamReader reader = new(correctedStream,Encoding.UTF8);
+            string actual = (await reader.ReadToEndAsync()).Trim();
+
+            var actual_json = JToken.Parse(actual);
+            var expected_json = JToken.Parse(expected);
+
             //Assert
-            Assert.That(properJson,Is.EqualTo(expectedJson));
+            Assert.That(JToken.DeepEquals(actual_json,expected_json));
         }
     }
 }

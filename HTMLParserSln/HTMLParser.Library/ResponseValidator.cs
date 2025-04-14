@@ -25,36 +25,28 @@ namespace HTMLParser.Library
             {
                 throw new ArgumentException("Stream Must be readable,seekable,writable");
             }
-
             int startJsonArray = FintJsonArray(stream);
             if (startJsonArray == -1)
                 throw new ArgumentException("Stream Must Contain a json array of objects");
 
+            stream.Position = startJsonArray;
             bool inString = false;
             bool escaped = false;
             Stack<char> openTags = new();
             //Adding the first [ open tag for the json array
             Stream correctedStream = new MemoryStream();
-            await using StreamWriter writer = new StreamWriter(correctedStream, leaveOpen: true);
-            openTags.Append('[');
+            await using StreamWriter writer = new StreamWriter(correctedStream,new UTF8Encoding(false),leaveOpen:true);
+            openTags.Push('[');
             writer.Write('[');
             int currentByte;
+
             while ((currentByte = stream.ReadByte())!= -1)
             {
                 char c = (char)currentByte;
                 writer.Write(c);
-                switch (c)
-                {
-                    case '"':
-                        inString = !inString;
-                        break;
-                    case '\\':
-                        escaped = !escaped;
-                        break;
-                    default:
-                        escaped = false;
-                        break;
-                }
+                await Console.Out.WriteAsync(c);
+                if (c == '"' && !escaped) inString = !inString;
+                escaped = c == '\\' && !escaped;
                 if (!inString)
                 {
                     if (c == '{' || c == '[')
@@ -76,6 +68,7 @@ namespace HTMLParser.Library
             }
             await writer.FlushAsync();
             correctedStream.Position = 0;
+
             return correctedStream;
         }
 
