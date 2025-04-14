@@ -1,0 +1,73 @@
+[
+ {
+ "QuestionText": "<td><span dir=\"rtl\">كل مما يلي يحدث عند التوازن ما عدا</span></td>",
+ "QuestionChoices": [
+ "<p><span dir=\"rtl\">A- تثبت تراكيز المواد المتفاعلة</span></p>",
+ "<p><span dir=\"rtl\">B- تتساوي سرعة التفاعل المباشر و العكسي</span></p>",
+ "<p><span dir=\"rtl\">C- تتساوي تراكيز المواد المتفاعلة و المواد الناتجة</span></p>",
+ "<p><span dir=\"rtl\">D- يثبت لون المحلول</span></p>"
+ ],
+ "QuestionAnswer": "<td>C</td>"
+ },
+ {
+ "QuestionText": "<td><span dir=\"rtl\">التوازن الكيميائي</span></td>",
+ "QuestionChoices": [
+ "<p><span dir=\"rtl\">A- حركي</span></p>",
+ "<p><span dir=\"rtl\">B- ساكن</span></p>",
+ "<p><span dir=\"rtl\">C- غير ثابت</span></p>",
+ "<p><span dir=\"rtl\">D- ليس أيا مما سبق</span></p>"
+ ],
+ "QuestionAnswer": "<td>A</td>"
+ },
+ {
+ "QuestionText": "<td><p><span dir=\"rtl\">اكتب علاقة ثابت التوازن الكيميائي بدلالة التراكيز للتفاعل الآتي:</span></p><p><span class=\"math display\">\\[{H_{2}}_{\\left( g \\right)} + {I_{2}}_{\\left( g \\right)} \\rightleftharpoons2HI_{\\left( g \\right)}\\]</span></p></td>",
+ "QuestionChoices": [
+ "<p><span dir=\"rtl\">A-</span> <span class=\"math inline\">\\(K_{c} = \\frac{\\left\\lbrack \\text{HI} \\right\\rbrack^{2}}{\\left\\lbrack H_{2} \\right\\rbrack.\\left\\lbrack I_{2} \\right\\rbrack}\\)</span></p>",
+ "<p><span dir=\"rtl\">B-</span> <span class=\"math inline\">\\(K_{c} = \\frac{\\left\\lbrack H_{2} \\right\\rbrack.\\left\\lbrack I_{2} \\right\\rbrack}{\\left\\lbrack \\text{HI} \\right\\rbrack^{2}}\\)</span></p>",
+ "<p><span dir=\"rtl\">C-</span> <span class=\"math inline\">\\(K_{c} = \\frac{\\left\\lbrack H_{2} \\right\\rbrack.\\left\\lbrack I_{2} \\right\\rbrack}{\\lbrack HI\\rbrack}\\)</span></p>",
+ "<p><span dir=\"rtl\">D-</span> <span class=\"math inline\">\\(K_{c} = \\frac{\\left\\lbrack \\text{HI} \\right\\rbrack}{\\left\\lbrack H_{2} \\right\\rbrack.\\left\\lbrack I_{2} \\right\\rbrack}\\)</span></p>"
+ ],
+ "QuestionAnswer": "<td>A</td>"
+ },
+ {
+ "QuestionText": "<td><p><span dir=\"rtl\">اكتب علاقة ثابت التوازن الكيميائي بدلالة التراكيز للتفاعل الآتي:</span></p><p><span class=\"math display\">\\[\\text{CaC}{O_{3}}_{\\left( s \\right)} \\rightleftharpoons CaO_{\\left( s \\right)} + C{O_{2}}_{\\left( g \\right)}\\]</span></p></td>",
+ "QuestionChoices": [
+ "<p><span dir=\"rtl\">A-</span> <span class=\"math inline\">\\(K_{c} = \\frac{\\left\\lbrack \\text{CaC}O_{3} \\right\\rbrack}{\\left\\lbrack \\text{CaO} \\right\\rbrack.\\left\\lbrack CO_{2} \\right\\rbrack}\\)</span></p>",
+ "<p><span dir=\"rtl\">B-</span> <span class=\"math inline\">\\(K_{c} = \\lbrack CO_{2}\\rbrack\\)</span></p>",
+ "<p><span dir=\"rtl\">C-</span> <span class=\"math inline\">\\(Kc = \\lbrack CaCO_{3}\\rbrack\\)</span></p>",
+ "<p><span dir=\"rtl\">D-</span> <span class=\"math inline\">\\(K_{c} = \\left\\lbrack CO_{2} \\right\\rbrack.\\lbrack CaCO_{3}\\)</span></p>"
+ ],
+ "QuestionAnswer": "<td>B</td>"
+ },
+ {
+ "QuestionText": "<td><span dir=\"rtl\">علاقة</span> Kp <span dir=\"rtl\">للتفاعل السابق:</span></td>",
+ "QuestionChoices": [
+ "<p><span dir=\"rtl\">A-</span> <span class=\"math inline\">\\(K_{p} = K_{c}\\)</span></p>",
+ "<p><span dir=\"rtl\">B-</span> <span class=\"math inline\">\\(K_{p} = K_{c}\\left( \\text{RT} \\right)\\)</span></p>",
+ "<p><span dir=\"rtl\">C-</span> <span class=\"math inline\">\\(K_{p} = \\frac{K_{c}}{\\text{RT}}\\)</span></p>",
+ "<p><span dir=\"rtl\">D-</span> <span class=\"math inline\">\\(K_{c} = K_{p}\\left( \\text{RT} \\right)\\)</span></p>"
+ ],
+ "QuestionAnswer": "<td>B</td>"
+ },
+ {
+ "QuestionText": "<td><p><span dir=\"rtl\">ليكن التفاعل:</span></p><p><span class=\"math display\">\\[W{O_{3}}_{\\left( s \\right)} +3H_{2_{\\left( g \\right)}} \\rightleftharpoons W_{\\left( s \\right)} +3H2O_{\\left( l \\right)}\\]</span></p><p><span dir=\"rtl\">فإن علاقة ثابت التوازن بدلالة التراكيز هي:</span></p></td>",
+ "QuestionChoices": [
+ "<p><span dir=\"rtl\">A-</span> <span class=\"math inline\">\\(K_{c} =1\\)</span></p>",
+ "<p><span dir=\"rtl\">B-</span> <span class=\"math inline\">\\(K_{c} = \\left\\lbrack H_{2} \\right\\rbrack^{-3}\\)</span></p>",
+ "<p><span dir=\"rtl\">C-</span> <span class=\"math inline\">\\(Kc = \\left\\lbrack H_{2} \\right\\rbrack^{3}\\)</span></p>",
+ "<p><span dir=\"rtl\">D-</span> <span class=\"math inline\">\\(K_{c} = \\frac{\\left\\lbrack W \\right\\rbrack}{\\left\\lbrack WO_{3} \\right\\rbrack.\\left\\lbrack H2 \\right\\rbrack^{3}}\\)</span></p>"
+ ],
+ "QuestionAnswer": "<td>B</td>"
+ },
+ {
+ "QuestionText": "<td><span dir=\"rtl\">العلاقة بين</span> <span class=\"math inline\">\\(K_{p},\\ K_{c}\\) </span> <span dir=\"rtl\">للتفاعل السابق:</span></td>",
+ "QuestionChoices": [
+ "<p><span dir=\"rtl\">A-</span> <span class=\"math inline\">\\(K_{c} = K_{p}\\left( \\text{RT} \\right)^{3}\\)</span></p>",
+ "<p><span dir=\"rtl\">B-</span> <span class=\"math inline\">\\(K_{p} = K_{c}\\left( \\text{RT} \\right)^{3}\\)</span></p>",
+ "<p><span dir=\"rtl\">C-</span> <span class=\"math inline\">\\(K_{p} = K_{c}\\)</span></p>",
+ "<p><span dir=\"rtl\">D-</span> <span class=\"math inline\">\\(K_{p} = K_{c}\\left( \\text{RT} \\right)^{2}\\)</span></p>"
+ ],
+ "QuestionAnswer": "<td>A</td>"
+ },
+ {
+ "QuestionText": "<td><p><span dir=\"rtl\">ليكن التفاعل</span></p><p><span class=\"math
