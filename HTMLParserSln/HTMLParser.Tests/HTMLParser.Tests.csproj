@@ -17,4 +17,10 @@
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HTMLParser.AI\HTMLParser.AI.csproj" />
+    <ProjectReference Include="..\HTMLParser.Library\HTMLParser.Library.csproj" />
+    <ProjectReference Include="..\HTMLParser.Models\HTMLParser.Models.csproj" />
+  </ItemGroup>
+
 </Project>

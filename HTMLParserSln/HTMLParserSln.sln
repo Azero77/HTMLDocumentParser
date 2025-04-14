@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HTMLParser.Library", "HTMLP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HTMLParser.Models", "HTMLParser.Models\HTMLParser.Models.csproj", "{41AFF457-4CF3-4CB7-952C-EE1AC3434C25}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTMLParser.Tests", "HTMLParser.Tests\HTMLParser.Tests.csproj", "{BBFA16E2-5852-4C72-AB3A-D33EE7BA0216}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{41AFF457-4CF3-4CB7-952C-EE1AC3434C25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41AFF457-4CF3-4CB7-952C-EE1AC3434C25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41AFF457-4CF3-4CB7-952C-EE1AC3434C25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBFA16E2-5852-4C72-AB3A-D33EE7BA0216}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBFA16E2-5852-4C72-AB3A-D33EE7BA0216}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBFA16E2-5852-4C72-AB3A-D33EE7BA0216}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBFA16E2-5852-4C72-AB3A-D33EE7BA0216}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
