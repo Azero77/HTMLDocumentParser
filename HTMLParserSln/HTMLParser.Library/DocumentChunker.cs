@@ -21,6 +21,7 @@ namespace HTMLParser.Library
         {
             HtmlDocument document = LoadDocument(file);
             HtmlNode? body = document.DocumentNode;
+            Console.WriteLine($"Document-Length:{document.Text.Length}");
             if(body is null)
                 throw new InvalidDataException("This format is not provided");
             return Chunk(body);
@@ -40,8 +41,9 @@ namespace HTMLParser.Library
                     if (result_node.ChildNodes.Count() > 0)
                     {
                         DocumentChunk returnedChunk =  new DocumentChunk() { Content = result_node.OuterHtml,StartedToken = cursor - token_counter, TokenLength = token_counter }; //add logic for staring and ending token
-                        token_counter = 0;
                         yield return returnedChunk;
+                        token_counter = 0;
+                        result_node = new HtmlDocument().CreateElement("div");
                     }
                     else
                     {
@@ -50,12 +52,10 @@ namespace HTMLParser.Library
                         {
                             yield return chunk;
                         }
-                        token_counter = 0;
                         continue;
                     }
                 }
-                else
-                    result_node.ChildNodes.Add(node);
+                result_node.AppendChild(node.Clone());
 
                 cursor += node_token;
                 token_counter += node_token;
@@ -83,13 +83,6 @@ namespace HTMLParser.Library
         {
             return (int) Math.Ceiling((double)(node.OuterLength / 4));
         }
-    }
-
-    public class DocumentChunk
-    {
-        public string Content { get; set; } = string.Empty;
-        public long StartedToken { get; set; }
-        public long TokenLength { get; set; }
     }
 
 }

@@ -9,13 +9,7 @@ namespace HTMLParser.Library
 {
     public class ChunkerValidator
     {
-        public event Action<ValidationResult>? Validated;
-        private void OnValidate(ValidationResult result)
-        {
-            Validated?.Invoke(result);
-        }
-
-        public void Validate(string chunk)
+        public void Validate(DocumentChunk chunk)
         {
 
         }

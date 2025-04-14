@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using HTMLParser.AI.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,9 @@ namespace HTMLParser.Library
         {
             services.AddSingleton<IConfiguration>(sp => Configuration);
             services.AddSingleton<DocumentChunker>();
+            services.AddSingleton<HttpClient>();
+            services.AddSingleton<IAIModel, QuizAIModel>();
+            
         }
         private static IConfiguration? _configuration = null;
 

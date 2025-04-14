@@ -15,6 +15,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\HTMLParser.AI\HTMLParser.AI.csproj" />
+	  <ProjectReference Include="..\HTMLParser.Models\HTMLParser.Models.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Update="Config.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
