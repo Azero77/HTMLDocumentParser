@@ -41,7 +41,7 @@ Instructions:
 The HTML may be truncated, so partial questions are acceptable. Your reasoning is needed to identify and extract what qualifies as a question and its parts. Focus on structure and correctness.
 in the last element please close any open bracket or object so the json can be valid
 ";
-            StreamWriter writer = new("test.txt") { AutoFlush = true };
+            await using StreamWriter writer = new("test.txt");
 
             foreach (var chunk in chunker.Chunk(new StreamReader(@"E:\Chemistry\Bank\output.html")))
             {
