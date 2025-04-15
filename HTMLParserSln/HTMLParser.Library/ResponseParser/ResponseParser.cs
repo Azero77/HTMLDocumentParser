@@ -1,4 +1,5 @@
-﻿using HTMLParser.Models;
+﻿using HTMLParser.Library.Mediator;
+using HTMLParser.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -6,17 +7,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HTMLParser.Library
+namespace HTMLParser.Library.ResponseParser
 {
-    public class ResponseParser
+    public class ResponseParser : IResponseParser
     {
-
+        private readonly IResponseMediator _mediator;
         private readonly JsonSerializer _serializer = new() { Formatting = Formatting.Indented };
-        public async IAsyncEnumerable<RawQuestion> Parse(string chunk)
+        public ResponseParser(IResponseMediator mediator)
         {
-            StreamReader reader = new StreamReader(new MemoryStream(Encoding.ASCII.GetBytes(chunk)));
-            JsonTextReader jsonReader = new(reader) { SupportMultipleContent = false};
+            _mediator = mediator;
+        }
 
+        public async IAsyncEnumerable<RawQuestion> Parse(Stream response)
+        {
+            StreamReader reader = new StreamReader(response,Encoding.UTF8);
+            JsonTextReader jsonReader = new(reader) { SupportMultipleContent = false };
+            RawQuestion? rawQuestion = null;
             while (await jsonReader.ReadAsync())
             {
                 if (jsonReader.TokenType == JsonToken.StartArray)
@@ -25,10 +31,13 @@ namespace HTMLParser.Library
             while (await jsonReader.ReadAsync())
             {
                 if (jsonReader.TokenType == JsonToken.EndArray)
+                {
+                    _mediator.OnResponseParsed(rawQuestion ?? throw new NullReferenceException("last Question can't be null"));
                     yield break;
+                }
                 else if (jsonReader.TokenType == JsonToken.StartObject)
                 {
-                    RawQuestion? rawQuestion = _serializer.Deserialize<RawQuestion>(jsonReader);
+                    rawQuestion = _serializer.Deserialize<RawQuestion>(jsonReader);
                     if (rawQuestion is null)
                         yield break;
                     yield return rawQuestion;
@@ -36,5 +45,6 @@ namespace HTMLParser.Library
             }
             yield break;
         }
+
     }
 }
