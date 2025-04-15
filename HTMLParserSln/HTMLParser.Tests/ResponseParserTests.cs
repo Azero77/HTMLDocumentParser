@@ -1,4 +1,5 @@
 ﻿using HTMLParser.Library;
+using HTMLParser.Library.Mediator;
 using HTMLParser.Library.ResponseParser;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace HTMLParser.Tests
     {
         [Test]
         public async Task IsParsingRight()
-        {/*
+        {
             string answer = @"[
           {
             ""QuestionText"": ""كل مما يلي يحدث عند التوازن ما عدا"",
@@ -164,11 +165,11 @@ namespace HTMLParser.Tests
           }
         ]";
 
-            var parser = new ResponseParser();
-
+            var parser = new ResponseParser(new ResponseMediator());
+            Stream answerStream = new MemoryStream(Encoding.UTF8.GetBytes(answer));
             // Act
             var sb = new StringBuilder();
-            await foreach (var item in parser.Parse(answer))
+            await foreach (var item in parser.Parse(answerStream))
             {
                 if (item.QuestionAnswer is not null)
                     sb.Append(item.QuestionAnswer);
@@ -176,7 +177,7 @@ namespace HTMLParser.Tests
 
             // Assert
             string expected = "CAABBBBADAAACAA";
-            Assert.That(expected,Is.EqualTo(sb.ToString()));*/
+            Assert.That(expected,Is.EqualTo(sb.ToString()));
         }
     }
 }

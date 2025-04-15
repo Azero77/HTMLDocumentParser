@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HTMLParser.Library.Mediator
 {
-    internal class ResponseMediator : IResponseMediator
+    public class ResponseMediator : IResponseMediator
     {
         public event Action<RawQuestion>? ResponseParsed;
 
