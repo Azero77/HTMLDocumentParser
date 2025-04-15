@@ -33,18 +33,15 @@ namespace HTMLParser.Library
             bool inString = false;
             bool escaped = false;
             Stack<char> openTags = new();
-            //Adding the first [ open tag for the json array
             Stream correctedStream = new MemoryStream();
-            await using StreamWriter writer = new StreamWriter(correctedStream,new UTF8Encoding(false),leaveOpen:true);
-            openTags.Push('[');
-            writer.Write('[');
+            await using StreamWriter writer = new StreamWriter(correctedStream,Encoding.UTF8,leaveOpen:true);
+            using StreamReader reader = new StreamReader(stream, Encoding.UTF8, detectEncodingFromByteOrderMarks: false, leaveOpen: false);
+            //Adding the first [ open tag for the json array
             int currentByte;
-
-            while ((currentByte = stream.ReadByte())!= -1)
+            while ((currentByte = reader.Read())!= -1)
             {
                 char c = (char)currentByte;
-                writer.Write(c);
-                await Console.Out.WriteAsync(c);
+                await writer.WriteAsync(c);
                 if (c == '"' && !escaped) inString = !inString;
                 escaped = c == '\\' && !escaped;
                 if (!inString)
@@ -59,7 +56,7 @@ namespace HTMLParser.Library
                 }
             }
             if (inString)
-                writer.Write('"');
+                await writer.WriteAsync('"');
 
             while (openTags.Count > 0)
             {

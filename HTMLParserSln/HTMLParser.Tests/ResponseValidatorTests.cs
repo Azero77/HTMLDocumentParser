@@ -63,13 +63,11 @@ namespace HTMLParser.Tests
             expected = expected.Trim();
 
             //Act
-            Console.OutputEncoding = Encoding.UTF8;
             MemoryStream stream = new(Encoding.UTF8.GetBytes(malformedJson));
             ResponseValidator validator = new();
-             var correctedStream =  await validator.Validate(stream);
+            var correctedStream =  await validator.Validate(stream);
             StreamReader reader = new(correctedStream,Encoding.UTF8);
             string actual = (await reader.ReadToEndAsync()).Trim();
-
             var actual_json = JToken.Parse(actual);
             var expected_json = JToken.Parse(expected);
 
