@@ -20,7 +20,7 @@ namespace HTMLParser.Library.ResponseParser
 
         public async IAsyncEnumerable<RawQuestion> Parse(Stream response)
         {
-            StreamReader reader = new StreamReader(response,Encoding.UTF8);
+            StreamReader reader = new StreamReader(response, Encoding.UTF8);
             JsonTextReader jsonReader = new(reader) { SupportMultipleContent = false };
             RawQuestion? rawQuestion = null;
             while (await jsonReader.ReadAsync())
@@ -38,13 +38,17 @@ namespace HTMLParser.Library.ResponseParser
                 else if (jsonReader.TokenType == JsonToken.StartObject)
                 {
                     rawQuestion = _serializer.Deserialize<RawQuestion>(jsonReader);
-                    if (rawQuestion is null)
-                        yield break;
+                    if (rawQuestion is null || anyFieldNull(rawQuestion))
+                        continue;
                     yield return rawQuestion;
                 }
             }
             yield break;
         }
 
+        private bool anyFieldNull(RawQuestion? rawQuestion)
+        {
+            return rawQuestion?.QuestionAnswer is null || rawQuestion?.QuestionChoices is null || rawQuestion?.QuestionText is null;
+        }
     }
 }
