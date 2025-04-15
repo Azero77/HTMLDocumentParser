@@ -39,7 +39,29 @@ namespace HTMLParser.Library.Prompter
 
             return stream;
         }
+        public static string Getprompt()
+        {
+            return @"Here is my HTML content. I want you to extract questions from it and write a JSON file using the following structure:
 
+[
+  {
+    ""QuestionText"": ""HTML string of the question"",
+    ""QuestionChoices"": [""HTML string of choice A"", ""HTML string of choice B"", ""...""],
+    ""QuestionAnswer"": ""HTML string of the answer""
+  }
+]
+
+Instructions:
+- The values of all fields must be raw HTML strings from the input, including any inline formatting like <b>, <i>, <u>, <code>, <sup>, <sub>, etc.
+- LaTeX math should be preserved and properly escaped using double backslashes. Inline math must be in \\\\( ... \\\\), block math in \\\\[ ... \\\\].
+- Strings must be fully escaped for JSON (e.g., double quotes, backslashes).
+- If you encounter incomplete or ambiguous questions, leave the corresponding field(s) blank.
+- The response **must** be only the JSON file — no explanations or comments.
+- The JSON must be syntactically valid, fully closed, and well-formatted, so it can be parsed directly.
+
+The HTML may be truncated, so partial questions are acceptable. Your reasoning is needed to identify and extract what qualifies as a question and its parts. Focus on structure and correctness.
+"; 
+        }
         private string AddLastQuestionPrompt(string prompt)
         {
             if (lastQuestionFromPreviousPrompt is not null)
