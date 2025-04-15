@@ -36,7 +36,6 @@ namespace HTMLParser.Library.Prompter
             {
                 writer.Write(item);
             }
-
             return stream;
         }
         public static string Getprompt()
