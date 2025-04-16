@@ -21,9 +21,11 @@ namespace HTMLParser.Library
         /// <returns></returns>
         public async Task<Stream> Validate(Stream stream)
         {
-            if (stream is null || !stream.CanRead || !stream.CanSeek || !stream.CanWrite)
+            //start reading from 0
+            stream.Position = 0;
+            if (stream is null || !stream.CanRead || !stream.CanSeek)
             {
-                throw new ArgumentException("Stream Must be readable,seekable,writable");
+                throw new ArgumentException("Stream Must be readable,seekable");
             }
             int startJsonArray = FintJsonArray(stream);
             if (startJsonArray == -1)

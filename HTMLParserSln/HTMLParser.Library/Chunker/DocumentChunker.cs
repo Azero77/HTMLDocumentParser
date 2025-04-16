@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HTMLParser.Library
+namespace HTMLParser.Library.Chunker
 {
-    public class DocumentChunker
+    public class DocumentChunker : IChunker
     {
         private readonly int _tokenLimit;
         private long cursor = 0; //pointer to the token selected while reading
@@ -22,7 +22,7 @@ namespace HTMLParser.Library
             HtmlDocument document = LoadDocument(file);
             HtmlNode? body = document.DocumentNode;
             Console.WriteLine($"Document-Length:{document.Text.Length}");
-            if(body is null)
+            if (body is null)
                 throw new InvalidDataException("This format is not provided");
             return Chunk(body);
         }
@@ -40,7 +40,7 @@ namespace HTMLParser.Library
                 {
                     if (result_node.ChildNodes.Count() > 0)
                     {
-                        DocumentChunk returnedChunk =  new DocumentChunk() { Content = result_node.OuterHtml,StartedToken = cursor - token_counter, TokenLength = token_counter }; //add logic for staring and ending token
+                        DocumentChunk returnedChunk = new DocumentChunk() { Content = result_node.OuterHtml, StartedToken = cursor - token_counter, TokenLength = token_counter }; //add logic for staring and ending token
                         yield return returnedChunk;
                         token_counter = 0;
                         result_node = new HtmlDocument().CreateElement("div");
@@ -70,7 +70,7 @@ namespace HTMLParser.Library
                 };
                 yield return chunk;
             }
-                
+
         }
         private static HtmlDocument LoadDocument(StreamReader file)
         {
@@ -81,7 +81,7 @@ namespace HTMLParser.Library
 
         private static int ApproximateTokenCount(HtmlNode node)
         {
-            return (int) Math.Ceiling((double)(node.OuterLength / 4));
+            return (int)Math.Ceiling((double)(node.OuterLength / 4));
         }
     }
 

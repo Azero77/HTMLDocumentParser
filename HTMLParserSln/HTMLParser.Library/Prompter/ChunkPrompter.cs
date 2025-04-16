@@ -1,4 +1,5 @@
 ﻿using HTMLParser.AI.Models;
+using HTMLParser.Library.Chunker;
 using HTMLParser.Library.Mediator;
 using HTMLParser.Models;
 using System;
@@ -13,11 +14,12 @@ namespace HTMLParser.Library.Prompter
     {
         private readonly IAIModel _model;
         private RawQuestion? lastQuestionFromPreviousPrompt = null;
-
-        public ChunkPrompter(IAIModel model, IResponseMediator mediator)
+        private readonly ResponseValidator _validator;
+        public ChunkPrompter(IAIModel model, IResponseMediator mediator, ResponseValidator validator)
         {
             _model = model;
             mediator.ResponseParsed += OnResponseParsed;
+            _validator = validator;
         }
 
         private void OnResponseParsed(RawQuestion lastQuestion)
@@ -27,16 +29,23 @@ namespace HTMLParser.Library.Prompter
 
         public async Task<Stream> Answer(DocumentChunk chunk)
         {
-            await using MemoryStream stream = new();
-            await using StreamWriter writer = new StreamWriter(stream: stream);
-
-            string prompt = chunk.Content;
-            prompt = AddLastQuestionPrompt(prompt);
-            await foreach (string? item in _model.GetStreamingResponseAsync(prompt))
+            MemoryStream stream = new();
+            await using (stream)
             {
-                writer.Write(item);
+                await using StreamWriter writer = new StreamWriter(stream: stream,leaveOpen : true);
+
+                await using (writer)
+                {
+                    string prompt = chunk.Content;
+                    prompt = AddLastQuestionPrompt(prompt);
+                    await foreach (string? item in _model.GetStreamingResponseAsync(prompt))
+                    {
+                        writer.Write(item);
+                    }
+                }
+
+                return await _validator.Validate(stream);
             }
-            return stream;
         }
         public static string Getprompt()
         {

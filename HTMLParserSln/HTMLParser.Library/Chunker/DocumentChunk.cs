@@ -1,4 +1,4 @@
-﻿namespace HTMLParser.Library
+﻿namespace HTMLParser.Library.Chunker
 {
     public class DocumentChunk
     {

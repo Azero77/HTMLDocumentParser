@@ -1,4 +1,5 @@
-﻿using HTMLParser.Models;
+﻿using HTMLParser.Library.ResponseParser;
+using HTMLParser.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,17 +8,27 @@ using System.Threading.Tasks;
 
 namespace HTMLParser.Library.Formatter
 {
-    public class Formatter : IResponseFormatter<RawQuestion,Question>
+    public class Formatter : IResponseFormatter
     {
         private readonly ReverseMarkdown.Converter _converter;
+        private readonly IResponseParser _parser;
 
-        public Formatter()
+        public Formatter(IResponseParser parser)
         {
-            ReverseMarkdown.Config config = new ReverseMarkdown.Config() { GithubFlavored = true};
+            ReverseMarkdown.Config config = new ReverseMarkdown.Config() { GithubFlavored = true };
             _converter = new ReverseMarkdown.Converter(config);
+            _parser = parser;
         }
 
-        public Task<Question> Format(RawQuestion raw)
+        public async IAsyncEnumerable<Question> Format(Stream prompt)
+        {
+            await foreach (var rawQuestion in _parser.Parse(prompt))
+            {
+                yield return await FormatRawQuestion(rawQuestion);
+            }
+        }
+
+        private Task<Question> FormatRawQuestion(RawQuestion raw)
         {
             var questionText = _converter.Convert(raw.QuestionText?.ToString() ?? string.Empty);
             var questionChoices = raw.QuestionChoices

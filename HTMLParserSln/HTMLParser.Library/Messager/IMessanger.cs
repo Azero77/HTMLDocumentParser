@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HTMLParser.Library
+namespace HTMLParser.Library.Messager
 {
-    internal class Parser
+    public interface IMessanger
     {
+        void Message(object s);
     }
 }

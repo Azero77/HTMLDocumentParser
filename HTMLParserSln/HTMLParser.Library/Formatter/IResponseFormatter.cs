@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HTMLParser.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace HTMLParser.Library.Formatter
 {
-    public interface IResponseFormatter<RawT,T>
+    public interface IResponseFormatter
     {
-        Task<T> Format(RawT raw);
+        IAsyncEnumerable<Question> Format(Stream response);
     }
 }

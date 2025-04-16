@@ -4,6 +4,8 @@ using System.Text;
 using HtmlAgilityPack;
 using HTMLParser.AI.Models;
 using HTMLParser.Library;
+using HTMLParser.Library.Chunker;
+using HTMLParser.Library.DocumentParser;
 using HTMLParser.Library.Prompter;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,22 +22,10 @@ namespace HTMLParser.Console
                 .ConfigureServices((context,services) => services.AddParser()).Build();
             OutputEncoding = Encoding.UTF8;
 
-            DocumentChunker chunker = host.Services.GetRequiredService<DocumentChunker>();
-            IAIModel model = host.Services.GetRequiredService<IAIModel>();
-            /*string prompt = ChunkPrompter.Getprompt();
-            StreamWriter writer = new("test.txt");
+            var parser = host.Services.GetRequiredService<IDocumentParser>();
 
-            foreach (var chunk in chunker.Chunk(new StreamReader(@"E:\Chemistry\Bank\output.html")))
-            {
-                await foreach (var item in model.GetStreamingResponseAsync($"{prompt} \n {chunk.Content}"))
-                {
-                    writer.Write(item);
-                    Write(item);
-                }
-                writer.Write("-------------------------------");
-
-            }*/
-           
+            await parser.Parse(@"E:\Chemistry\Bank\output.html");
+            ReadKey();
         }
     }
 }
