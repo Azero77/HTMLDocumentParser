@@ -34,6 +34,7 @@ namespace HTMLParser.Library
             stream.Position = startJsonArray;
             bool inString = false;
             bool escaped = false;
+            bool openColon = false;
             Stack<char> openTags = new();
             Stream correctedStream = new MemoryStream();
             await using StreamWriter writer = new StreamWriter(correctedStream,Encoding.UTF8,leaveOpen:true);
@@ -43,9 +44,25 @@ namespace HTMLParser.Library
             while ((currentByte = reader.Read())!= -1)
             {
                 char c = (char)currentByte;
-                await writer.WriteAsync(c);
                 if (c == '"' && !escaped) inString = !inString;
-                escaped = c == '\\' && !escaped;
+                if (inString)
+                {
+                    openColon = false;
+                    if (c == '\\' && !escaped)
+                    {
+                        escaped = true;
+                        await writer.WriteAsync(c);
+                        continue;
+                    }
+                    if (escaped)
+                    {
+                        if (!IsValidEscapeCharacter(c))
+                        {
+                            await writer.WriteAsync('\\');
+                        }
+                        escaped = false;
+                    }
+                }
                 if (!inString)
                 {
                     if (c == '{' || c == '[')
@@ -55,11 +72,17 @@ namespace HTMLParser.Library
                         if ((c == '}' && openTags.Peek() == '{') || (c == ']' && openTags.Peek() == '['))
                             openTags.Pop();
                     }
+                    if (c == ':')
+                        openColon = true;
                 }
+                await writer.WriteAsync(c);
             }
+
+            if (openColon)
+                await writer.WriteAsync("null");
             if (inString)
                 await writer.WriteAsync('"');
-
+            
             while (openTags.Count > 0)
             {
                 char openTag = openTags.Pop();
@@ -69,6 +92,13 @@ namespace HTMLParser.Library
             correctedStream.Position = 0;
 
             return correctedStream;
+        }
+
+        private bool IsValidEscapeCharacter(char c)
+        {
+            return c == '"' || c == '\\' || c == '/' ||
+          c == 'b' || c == 'f' || c == 'n' ||
+          c == 'r' || c == 't' || c == 'u';
         }
 
         private int FintJsonArray(Stream stream)

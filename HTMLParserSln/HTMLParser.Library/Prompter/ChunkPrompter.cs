@@ -37,6 +37,7 @@ namespace HTMLParser.Library.Prompter
                 await using (writer)
                 {
                     string prompt = chunk.Content;
+                    prompt += "\n" + Getprompt();
                     prompt = AddLastQuestionPrompt(prompt);
                     await foreach (string? item in _model.GetStreamingResponseAsync(prompt))
                     {
@@ -61,8 +62,9 @@ namespace HTMLParser.Library.Prompter
 
 Instructions:
 - The values of all fields must be raw HTML strings from the input, including any inline formatting like <b>, <i>, <u>, <code>, <sup>, <sub>, etc.
-- LaTeX math should be preserved and properly escaped using double backslashes. Inline math must be in \\\\( ... \\\\), block math in \\\\[ ... \\\\].
+- LaTeX math should be preserved and properly escaped using double backslashes.
 - Strings must be fully escaped for JSON (e.g., double quotes, backslashes).
+- when you see a backslash in the text you are reading and copying it, don't forget to escape it using another backslash
 - If you encounter incomplete or ambiguous questions, leave the corresponding field(s) blank.
 - The response **must** be only the JSON file — no explanations or comments.
 - The JSON must be syntactically valid, fully closed, and well-formatted, so it can be parsed directly.

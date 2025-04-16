@@ -20,6 +20,7 @@ namespace HTMLParser.Library.ResponseParser
 
         public async IAsyncEnumerable<RawQuestion> Parse(Stream response)
         {
+            string debug = Debug.writeStream(response);
             StreamReader reader = new StreamReader(response, Encoding.UTF8);
             JsonTextReader jsonReader = new(reader) { SupportMultipleContent = false };
             RawQuestion? rawQuestion = null;
