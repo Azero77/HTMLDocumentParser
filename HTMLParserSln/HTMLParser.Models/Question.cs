@@ -4,7 +4,7 @@
     {
         public string QuestionText { get; set; } = string.Empty;
         public IEnumerable<string> QuestionChoices { get; set; } = null!;
-        public string QuestionAnswer { get; set; } = string.Empty;
+        public byte? QuestionAnswer { get; set; }
 
 
         public override string ToString()

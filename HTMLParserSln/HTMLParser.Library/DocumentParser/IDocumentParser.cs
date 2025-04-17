@@ -9,7 +9,7 @@ namespace HTMLParser.Library.DocumentParser
     /// <summary>
     /// The main api for parsing html files into json
     /// </summary>
-    public interface IDocumentParser
+    public interface IDocumentParser : IDisposable
     {
         Task Parse(string filePath);
     }

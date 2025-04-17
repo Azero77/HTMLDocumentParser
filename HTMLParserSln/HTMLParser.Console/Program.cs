@@ -22,7 +22,7 @@ namespace HTMLParser.Console
                 .ConfigureServices((context,services) => services.AddParser()).Build();
             OutputEncoding = Encoding.UTF8;
 
-            var parser = host.Services.GetRequiredService<IDocumentParser>();
+            using var parser = host.Services.GetRequiredService<IDocumentParser>();
 
             await parser.Parse(@"E:\Chemistry\Bank\output.html");
             ReadKey();

@@ -34,6 +34,11 @@ namespace HTMLParser.Library.DocumentParser
             _messanger = messanger;
         }
 
+        public void Dispose()
+        {
+            _writer.DisposeAsync();
+        }
+
         public async Task Parse(string filePath)
         {
             /*if (!Directory.Exists(filePath))

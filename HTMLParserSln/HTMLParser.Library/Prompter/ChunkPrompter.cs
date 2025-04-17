@@ -13,6 +13,7 @@ namespace HTMLParser.Library.Prompter
     public class ChunkPrompter : IPrompter
     {
         private readonly IAIModel _model;
+        private readonly TimeSpan _rateLimitingTime = TimeSpan.FromSeconds(3);
         private RawQuestion? lastQuestionFromPreviousPrompt = null;
         private readonly ResponseValidator _validator;
         public ChunkPrompter(IAIModel model, IResponseMediator mediator, ResponseValidator validator)
@@ -44,7 +45,7 @@ namespace HTMLParser.Library.Prompter
                         writer.Write(item);
                     }
                 }
-
+                await Task.Delay(_rateLimitingTime);
                 return await _validator.Validate(stream);
             }
         }

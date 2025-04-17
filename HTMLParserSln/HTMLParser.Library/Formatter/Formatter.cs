@@ -33,7 +33,7 @@ namespace HTMLParser.Library.Formatter
             var questionText = _converter.Convert(raw.QuestionText?.ToString() ?? string.Empty);
             var questionChoices = raw.QuestionChoices
                 .Select(choice => _converter.Convert(choice?.ToString() ?? string.Empty));
-            var questionAnswer = _converter.Convert(raw.QuestionAnswer?.ToString() ?? string.Empty);
+            var questionAnswer = ExtractAnswer(_converter.Convert(raw.QuestionAnswer?.ToString() ?? string.Empty));
 
             return Task.FromResult(new Question()
             {
@@ -41,6 +41,17 @@ namespace HTMLParser.Library.Formatter
                 QuestionChoices = questionChoices,
                 QuestionText = questionText
             });
+        }
+
+        private byte? ExtractAnswer(string answerElement)
+        {
+            char choice;
+            char.TryParse(answerElement, out choice);
+            if (char.IsLetter(choice))
+            {
+                return (byte)(choice - 'A');
+            }
+            return null;
         }
     }
 }
